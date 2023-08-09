@@ -1,0 +1,21 @@
+:PROPERTIES:
+:OPTIONS:  toc:nil
+:END:
+
+* Caddy with plugins
+
+Nix flake to build a custom Caddy derivation with additional plugins. As an example, there is =caddy-with-cloudflare=. This is a derivation that includes the Cloudflare DNS plugin.
+
+** DISCLAIMER
+I hacked this together in about 2 hours. I am no Nix expert, it is possible this can be done much neater/better/faster/stronger. I am open to suggestions and/or pull requests.
+
+** Usage
+
+With this flake you can build a version of Caddy with a list of arbitrary plugins. It exposes the function =lib.caddyWithPlugins=, which takes the following arguments:
+
+- *caddy*: A Caddy derivation to add the plugins to
+- *buildGoModule*: The function from nixpkgs to build a Go module
+- *plugins*: A list of Go modules to add as plugins
+- *vendorSha256*: The SHA256 hash of the vendored Go modules. There is no elegant way to pre-compute this, use a dummy value (like =lib.fakeSha256= or an empty string) and try to build. Nix wil then give you the correct SHA256.
+
+The result should be a customised derivation for Caddy with the plugins builtin.
