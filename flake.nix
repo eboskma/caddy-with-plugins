@@ -16,11 +16,7 @@
         {
           formatter = pkgs.nixpkgs-fmt;
 
-          packages.default = self'.packages.caddy;
-
-          devShells.default = with pkgs; mkShell {
-            packages = [ xcaddy go ];
-          };
+          packages.default = self'.packages.caddy-with-cloudflare;
         };
     };
 }

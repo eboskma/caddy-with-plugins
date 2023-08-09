@@ -1,17 +1,16 @@
 { self, ... }: {
   perSystem = { self', pkgs, lib, ... }: {
-    packages.caddy = 
+    packages.caddy-with-cloudflare = 
       self.lib.caddyWithPackages {
         inherit (pkgs) caddy buildGoModule;
-        inherit lib;
         plugins = [ "github.com/caddy-dns/cloudflare" ];
         vendorSha256 = "juhzEaAv3s8KAcyloSNotAddOqgMBqjOcTkbA15Gj/U=";
       };
   };
 
   flake = {
-    lib.caddyWithPackages = { caddy, buildGoModule, lib, plugins, vendorSha256 }: let
-      pluginImports = lib.concatLines (map (plugin: "_ \"${plugin}\"") plugins);
+    lib.caddyWithPackages = { caddy, buildGoModule, plugins, vendorSha256 }: let
+      pluginImports = builtins.concatStringSep "\n" (map (plugin: "_ \"${plugin}\"") plugins);
       
         main = ''
           package main
