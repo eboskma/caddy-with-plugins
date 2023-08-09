@@ -4,7 +4,7 @@
       self.lib.caddyWithPackages {
         inherit (pkgs) caddy buildGoModule;
         plugins = [ "github.com/caddy-dns/cloudflare" ];
-        vendorSha256 = "juhzEaAv3s8KAcyloSNotAddOqgMBqjOcTkbA15Gj/U=";
+        vendorSha256 = "iAGryqtiCKs8sj349zZsgHNtkTYTdVBtKtf+HbLsBio=";
       };
   };
 
