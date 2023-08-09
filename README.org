@@ -11,7 +11,7 @@ I hacked this together in about 2 hours. I am no Nix expert, it is possible this
 
 ** Usage
 
-With this flake you can build a version of Caddy with a list of arbitrary plugins. It exposes the function =lib.caddyWithPlugins=, which takes the following arguments:
+With this flake you can build a version of Caddy with a list of arbitrary plugins. It exposes the function =lib.caddyWithPackages=, which takes the following arguments:
 
 - *caddy*: A Caddy derivation to add the plugins to
 - *buildGoModule*: The function from nixpkgs to build a Go module
