@@ -10,7 +10,7 @@
 
   flake = {
     lib.caddyWithPackages = { caddy, buildGoModule, plugins, vendorSha256 }: let
-      pluginImports = builtins.concatStringSep "\n" (map (plugin: "_ \"${plugin}\"") plugins);
+      pluginImports = builtins.concatStringsSep "\n" (map (plugin: "_ \"${plugin}\"") plugins);
       
         main = ''
           package main
