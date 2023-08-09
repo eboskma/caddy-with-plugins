@@ -15,7 +15,26 @@ With this flake you can build a version of Caddy with a list of arbitrary plugin
 
 - *caddy*: A Caddy derivation to add the plugins to
 - *buildGoModule*: The function from nixpkgs to build a Go module
-- *plugins*: A list of Go modules to add as plugins
+- *plugins*: A list of Go modules to add as plugins. You can specify a revision like you would with =go get=.
 - *vendorSha256*: The SHA256 hash of the vendored Go modules. There is no elegant way to pre-compute this, use a dummy value (like =lib.fakeSha256= or an empty string) and try to build. Nix wil then give you the correct SHA256.
 
 The result should be a customised derivation for Caddy with the plugins builtin.
+
+** Example
+
+#+begin_src nix
+  { caddy-with-plugins, ... }:
+  { pkgs, ... }: let
+    caddyWithCloudflare = caddy-with-plugins.lib.caddyWithPackages {
+        inherit (pkgs) caddy buildGoModule;
+        plugins = [ "github.com/caddy-dns/cloudflare@a9d3ae2690a1d232bc9f8fc8b15bd4e0a6960eec" ];
+        vendorSha256 = "juhzEaAv3s8KAcyloSNotAddOqgMBqjOcTkbA15Gj/U=";
+      };
+  in {
+    services.caddy = {
+      enable = true;
+      package = caddyWithCloudflare;
+      ...
+    };
+  }
+#+end_src
