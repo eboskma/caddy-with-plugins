@@ -11,7 +11,7 @@
   };
 
   outputs =
-    { self, flake-parts, ... }@inputs:
+    { flake-parts, ... }@inputs:
     flake-parts.lib.mkFlake { inherit inputs; } {
       systems = [ "x86_64-linux" ];
 
@@ -22,19 +22,13 @@
       ];
 
       perSystem =
+        { self', pkgs, ... }:
         {
-          self',
-          pkgs,
-          config,
-          ...
-        }:
-        {
-          formatter = config.treefmt.build.wrapper;
-
           treefmt = {
             projectRootFile = "flake.lock";
 
             programs = {
+              deadnix.enable = true;
               nixfmt = {
                 enable = true;
                 package = pkgs.nixfmt-rfc-style;

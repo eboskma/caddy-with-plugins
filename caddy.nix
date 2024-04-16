@@ -1,12 +1,7 @@
 { self, ... }:
 {
   perSystem =
-    {
-      self',
-      pkgs,
-      lib,
-      ...
-    }:
+    { pkgs, lib, ... }:
     {
       packages.caddy-with-cloudflare = self.lib.caddyWithPackages {
         inherit (pkgs) caddy buildGoModule;
