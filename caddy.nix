@@ -1,10 +1,11 @@
 { self, ... }:
 {
   perSystem =
-    { self'
-    , pkgs
-    , lib
-    , ...
+    {
+      self',
+      pkgs,
+      lib,
+      ...
     }:
     {
       packages.caddy-with-cloudflare = self.lib.caddyWithPackages {
@@ -16,23 +17,21 @@
 
   flake = {
     lib.caddyWithPackages =
-      { caddy
-      , buildGoModule
-      , plugins
-      , vendorHash
-      ,
+      {
+        caddy,
+        buildGoModule,
+        plugins,
+        vendorHash,
       }:
       let
         pluginImports = builtins.concatStringsSep "\n" (
-          map
-            (
-              pluginWithHash:
-              let
-                plugin = builtins.elemAt (builtins.split "@" pluginWithHash) 0;
-              in
-              "_ \"${plugin}\""
-            )
-            plugins
+          map (
+            pluginWithHash:
+            let
+              plugin = builtins.elemAt (builtins.split "@" pluginWithHash) 0;
+            in
+            "_ \"${plugin}\""
+          ) plugins
         );
         pluginGoGetCmds = builtins.concatStringsSep "\n" (map (plugin: "go get ${plugin}") plugins);
 
